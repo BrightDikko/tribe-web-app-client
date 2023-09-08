@@ -1,22 +1,22 @@
 import React from "react";
 
 const navigation = {
-    company: [
-        { name: 'About', href: '#' },
-        { name: 'Offerings', href: '#' },
-        { name: 'Campuses', href: '#' },
-        { name: 'Support Center', href: '#' },
-    ],
     products: [
         { name: 'Feeder', href: '#' },
         { name: 'Cruiser', href: '#' },
         { name: 'Marketplace', href: '#' },
         { name: 'Talent+', href: '#' },
     ],
+    company: [
+        { name: 'About', href: '#' },
+        { name: 'Offerings', href: '#' },
+        { name: 'Campuses', href: '#' },
+    ],
     getInvolved: [
         { name: 'Feedback', href: '#' },
         { name: 'Community', href: '#' },
         { name: 'Career', href: '#' },
+        { name: 'Support Center', href: '#' },
     ],
     legal: [
         { name: 'Claim', href: '#' },
@@ -86,9 +86,9 @@ const Footer = () => {
                     <div className="grid grid-cols-2 gap-8 xl:col-span-2">
                         <div className="md:grid md:grid-cols-2 md:gap-8">
                             <div>
-                                <h3 className="text-sm font-semibold leading-6 text-white">Company</h3>
+                                <h3 className="text-sm font-semibold leading-6 text-white">Products</h3>
                                 <ul role="list" className="mt-6 space-y-4">
-                                    {navigation.company.map((item) => (
+                                    {navigation.products.map((item) => (
                                         <li key={item.name}>
                                             <a href={item.href} className="text-sm leading-6 text-gray-300 hover:text-white">
                                                 {item.name}
@@ -98,9 +98,9 @@ const Footer = () => {
                                 </ul>
                             </div>
                             <div className="mt-10 md:mt-0">
-                                <h3 className="text-sm font-semibold leading-6 text-white">Products</h3>
+                                <h3 className="text-sm font-semibold leading-6 text-white">Company</h3>
                                 <ul role="list" className="mt-6 space-y-4">
-                                    {navigation.products.map((item) => (
+                                    {navigation.company.map((item) => (
                                         <li key={item.name}>
                                             <a href={item.href} className="text-sm leading-6 text-gray-300 hover:text-white">
                                                 {item.name}
@@ -167,7 +167,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="mt-16 border-t border-white/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24">
-                    <div className="flex space-x-6 md:order-2">
+                    <div className="flex justify-center space-x-6 md:order-2">
                         {navigation.social.map((item) => (
                             <a key={item.name} href={item.href} className="text-gray-500 hover:text-gray-400">
                                 <span className="sr-only">{item.name}</span>

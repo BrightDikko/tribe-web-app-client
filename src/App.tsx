@@ -1,13 +1,18 @@
 import './App.css';
-import Navbar from "./components/navbar/Navbar";
-import Hero from "./components/navbar/Hero";
-import Footer from "./components/navbar/Footer";
+import Navbar from "./components/nav/Navbar";
+import Footer from "./components/nav/Footer";
+import HomePageHero from "./components/pages/home/HomePageHero";
+import TribeFeederHeading from "./components/pages/tribe-feeder/TribeFeederHeading";
+import FeederHero from "./components/pages/tribe-feeder/FeederHero";
 
 function App() {
     return (
         <div className="App">
             <Navbar/>
-            <Hero/>
+            {/*<TribeFeederHeading/>*/}
+            {/*TODO: Save images within codebase, in case they get taken down from web*/}
+            <HomePageHero/>
+            {/*<FeederHero/>*/}
             <Footer/>
         </div>
     );

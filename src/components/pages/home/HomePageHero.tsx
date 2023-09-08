@@ -1,5 +1,6 @@
 import React from 'react';
-const Hero = () => {
+
+const HomePageHero = () => {
     return (
         <div className="bg-black">
             <main>
@@ -17,17 +18,20 @@ const Hero = () => {
                         />
                     </div>
                     <div className="overflow-hidden">
-                        <div className="mx-auto max-w-7xl px-6 pb-32 pt-20 sm:pt-32 lg:px-8 lg:pt-14">
+                        <div className="mx-auto max-w-7xl px-6 pb-32 pt-24 sm:pt-32 lg:px-8 lg:pt-14">
                             <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
-                                <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
-                                    <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                                        Reimagining campus connections,
+                                <div className="w-full max-w-xl lg:shrink-0 xl:max-w-2xl px-4 md:px-0 lg:mb-16">
+                                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-black pt-4 pb-5 font-serif italic relative bg-transparent slanted-bg">
+                                        Reimagining it all!
                                     </h1>
-                                    <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-                                        one TRiBE at a time.
+                                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mt-4 mb-1.5">
+                                        Your <span className="text-indigo-400">TRiBE</span> has been
+                                    </h1>
+                                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white">
+                                        expecting you.
                                     </h1>
                                     <p className="relative mt-6 text-lg leading-8 text-gray-400 sm:max-w-md lg:max-w-none">
-                                        Dive into a secure hub designed for authentic campus connections, seamless sharing of resources, safe transactions, and more. Top-notch campus marketplace, ride-sharing hub, businesses and talent discovery, charity initiatives, and more – all unified under one platform. Your college experience, Amplified by TRiBE."
+                                        Dive into a secure hub designed for authentic campus connections, seamless sharing of resources, safe transactions, and more. Top-notch campus marketplace, ride-sharing hub, businesses and talent discovery, charity initiatives, and more – all unified under one platform. Your college experience, Amplified by TRiBE"
                                     </p>
                                     <div className="mt-10 flex sm:justify-start justify-center items-center gap-x-6">
                                         <a
@@ -98,4 +102,4 @@ const Hero = () => {
     )
 }
 
-export default Hero;
+export default HomePageHero;

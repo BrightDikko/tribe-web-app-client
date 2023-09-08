@@ -109,9 +109,8 @@ const Navbar = () => {
                                 </Disclosure.Button>
                             ))}
                         </div>
-                        <div className="border-t border-gray-700 pb-3 pt-4">
-
-                            <div className="mt-3 space-y-1 px-2 sm:px-3">
+                        <div className="border-t border-white/10 py-3">
+                            <div className=" space-y-1 px-2 sm:px-3">
                                 {userNavigation.map((item) => (
                                     <Disclosure.Button
                                         key={item.name}

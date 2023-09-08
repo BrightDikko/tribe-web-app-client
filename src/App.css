@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+.slanted-bg::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -5px; /* Adjust as needed */
+  right: -5px; /* Adjust as needed */
+  background-color: white;
+  transform: skewX(-10deg); /* Adjust the skew as needed */
+  z-index: -1;
+}
+
