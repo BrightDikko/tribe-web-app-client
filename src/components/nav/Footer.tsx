@@ -2,26 +2,26 @@ import React from "react";
 
 const navigation = {
     products: [
-        { name: 'Feeder', href: '#' },
-        { name: 'Cruiser', href: '#' },
-        { name: 'Marketplace', href: '#' },
-        { name: 'Talent+', href: '#' },
+        { name: 'Feeder', href: '/feeder' },
+        { name: 'Cruiser', href: '/cruiser' },
+        { name: 'Marketplace', href: '/marketplace' },
+        { name: 'Talent+', href: '/talent+' },
     ],
     company: [
-        { name: 'About', href: '#' },
-        { name: 'Offerings', href: '#' },
-        { name: 'Campuses', href: '#' },
+        { name: 'About', href: '/about' },
+        { name: 'Offerings', href: '/offerings' },
+        { name: 'Campuses', href: '/campuses' },
     ],
     getInvolved: [
-        { name: 'Feedback', href: '#' },
-        { name: 'Community', href: '#' },
-        { name: 'Career', href: '#' },
-        { name: 'Support Center', href: '#' },
+        { name: 'Feedback', href: '/feedback' },
+        { name: 'Community', href: '/community' },
+        { name: 'Career', href: '/career' },
+        { name: 'Support Center', href: '/support' },
     ],
     legal: [
-        { name: 'Claim', href: '#' },
-        { name: 'Privacy', href: '#' },
-        { name: 'Terms', href: '#' },
+        { name: 'Claim', href: '/claim' },
+        { name: 'Privacy', href: '/privacy' },
+        { name: 'Terms', href: '/terms' },
     ],
     social: [
         {
