@@ -2,14 +2,14 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const navigation = [
-    { name: 'Feeder', href: '#', current: false },
-    { name: 'Cruiser', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'About', href: '#', current: false },
+    { name: 'Feeder', href: '/feeder', current: false },
+    { name: 'Cruiser', href: '/cruiser', current: false },
+    { name: 'Projects', href: '/projects', current: false },
+    { name: 'About', href: '/about', current: false },
 ]
 const userNavigation = [
-    { name: 'Help', href: '#' },
-    { name: 'Log in', href: '#' },
+    { name: 'Help', href: '/help' },
+    { name: 'Log in', href: '/login' },
 ]
 
 function classNames(...classes: string[]) {
@@ -39,11 +39,11 @@ const Navbar = () => {
 
                                 {/*Nav LHS - Logo & Buttons (Feeder, Cruiser, Projects, About)*/}
                                 <div className="flex flex-shrink-0 items-center">
-                                    <p
-                                        className="text-white text-2xl font-bold"
-                                    >
-                                        TRiBE
-                                    </p>
+                                    <a href={"/"}>
+                                        <p className="text-white text-2xl font-bold">
+                                            TRiBE
+                                        </p>
+                                    </a>
                                 </div>
                                 <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
                                     {navigation.map((item) => (
@@ -78,12 +78,14 @@ const Navbar = () => {
                                     </div>
 
                                     <div className="flex-shrink-0">
-                                        <button
-                                            type="button"
-                                            className="relative inline-flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                        >
-                                            Sign up
-                                        </button>
+                                        <a href={"/signup"}>
+                                            <button
+                                                type="button"
+                                                className="relative inline-flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-black shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                                            >
+                                                Sign up
+                                            </button>
+                                        </a>
                                     </div>
 
                                 </div>
