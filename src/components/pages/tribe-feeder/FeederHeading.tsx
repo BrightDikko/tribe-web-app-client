@@ -1,7 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {locationPin} from "../../../assets/icons/locationPin";
 
 const FeederHeading = () => {
+
+    useEffect(() => {
+        document.title = "TRiBE Feeder";
+    }, []);
+
     return (
         <div className="bg-white">
             <div className="flex bg-white h-16 items-center justify-between mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

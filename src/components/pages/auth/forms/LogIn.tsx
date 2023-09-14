@@ -1,6 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 const LogIn = () => {
+    useEffect(() => {
+        document.title = "TRiBE Log In | Sign In to TRiBE Account";
+    }, []);
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center mb-12 py-5 sm:px-6 lg:px-8">
