@@ -3,7 +3,7 @@
   "name": "Reimagining connections!",
   "icons": [
     {
-      "src": "fav-icon.ico",
+      "src": "favicon.ico",
       "sizes": "64x64 24x24",
       "type": "image/x-icon"
     },
@@ -18,12 +18,12 @@
       "sizes": "32x32"
     },
     {
-      "src": "logo-192.png",
+      "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo-512.png",
+      "src": "logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
