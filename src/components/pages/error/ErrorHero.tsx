@@ -63,7 +63,7 @@ const ErrorHero: React.FC<ErrorHeroProps> = (props) => {
                                                     <img
                                                         src={error404}
                                                         alt=""
-                                                        className=" max-h-[500px] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                                                        className=" max-h-full w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                                                     />
                                                     <div
                                                         className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"/>
