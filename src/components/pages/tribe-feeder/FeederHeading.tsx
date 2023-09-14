@@ -16,7 +16,7 @@ const FeederHeading = () => {
                     </div>
                     <div className="flex">
                         <h2 className="text-md sm:text-lg font-bold leading-7 text-indigo-800 sm:truncate sm:tracking-tight">
-                            University of Notre Dame
+                            See All Campuses
                         </h2>
                     </div>
                 </div>

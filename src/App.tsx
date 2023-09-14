@@ -9,6 +9,8 @@ import React from "react";
 import CruiserHeading from "./components/pages/tribe-cruiser/CruiserHeading";
 import CruiserHero from "./components/pages/tribe-cruiser/CruiserHero";
 import Error from "./components/pages/error/Error";
+import LogIn from "./components/pages/auth/forms/LogIn";
+import SignUp from "./components/pages/auth/forms/SignUp";
 
 
 const router = createBrowserRouter([
@@ -34,6 +36,20 @@ const router = createBrowserRouter([
             <div>
                 <CruiserHeading/>
                 <CruiserHero/>
+            </div>),
+    },
+    {
+        path: "/login",
+        element: (
+            <div>
+                <LogIn/>
+            </div>),
+    },
+    {
+        path: "/register",
+        element: (
+            <div>
+                <SignUp/>
             </div>),
     }
 ]);
