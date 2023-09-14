@@ -47,7 +47,7 @@ const FeederHero = () => {
                                             <img
                                                 src="https://images.unsplash.com/photo-1588123190131-1c3fac394f4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8cGVvcGxlJTIwZWF0aW5nfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
                                                 alt=""
-                                                className=" max-h-[500px] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
+                                                className=" max-h-full w-full rounded-xl bg-gray-900/5 object-cover shadow-lg"
                                             />
                                             <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10" />
                                         </div>

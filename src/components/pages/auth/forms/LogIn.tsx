@@ -3,7 +3,7 @@ import React from "react";
 const LogIn = () => {
     return (
         <>
-            <div className="flex min-h-full flex-1 flex-col justify-center py-5 sm:px-6 lg:px-8">
+            <div className="flex min-h-full flex-1 flex-col justify-center mb-12 py-5 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
                     <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-white">
                         Log in to your account
