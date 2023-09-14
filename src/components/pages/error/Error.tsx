@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useRouteError} from "react-router-dom";
 
 import ErrorHero from "./ErrorHero";
 
 
 const Error = () => {
+    useEffect(() => {
+        document.title = "Page Not Found!";
+    }, []);
+
     const error: any = useRouteError();
-    console.log(error);
 
     return (
         <React.Fragment>
