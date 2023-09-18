@@ -6,9 +6,9 @@ type ErrorHeroProps = {
 };
 
 const ErrorHero: React.FC<ErrorHeroProps> = (props) => {
-    if (props.errorStatus) {
-        console.log("Props from ErrorHero: ", props.errorStatus);
-    }
+    // if (props.errorStatus) {
+    //     console.log("Props from ErrorHero: ", props.errorStatus);
+    // }
 
     return (
         <React.Fragment>
