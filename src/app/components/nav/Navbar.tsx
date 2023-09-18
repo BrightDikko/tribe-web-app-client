@@ -240,7 +240,7 @@ const Navbar = () => {
 
                                     </button>
 
-                                    <div className="bg-gray-900 rounded-md mt-1">
+                                    <div className="bg-gray-700 rounded-md mt-1">
                                         {currentExpandedTab === item.name && item.children && item.children.map((child, index) => (
                                             <Link
                                                 key={child.name}

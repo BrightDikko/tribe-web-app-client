@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const HomePageHero = () => {
     return (
@@ -33,13 +34,13 @@ const HomePageHero = () => {
                                     <p className="relative mt-6 text-lg leading-8 text-gray-400 sm:max-w-md lg:max-w-none">
                                         Dive into a secure hub designed for authentic campus connections, seamless sharing of resources, safe transactions, and more. Top-notch campus marketplace, ride-sharing hub, businesses and talent discovery, charity initiatives, and more – all unified under one platform. Your college experience, Amplified by TRiBE"
                                     </p>
-                                    <div className="mt-10 flex sm:justify-start justify-center items-center gap-x-6">
-                                        <a
-                                            href="#"
+                                    <div className="mt-10 ml-2 flex sm:justify-start justify-center items-center gap-x-6">
+                                        <Link
+                                            to={"/login"}
                                             className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-black shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         >
                                             Get started
-                                        </a>
+                                        </Link>
                                         <a href="#" className="text-sm font-semibold leading-6 text-white">
                                             Learn more <span aria-hidden="true">→</span>
                                         </a>

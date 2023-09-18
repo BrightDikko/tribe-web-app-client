@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
 const FeederHero = () => {
     return (
@@ -31,12 +32,12 @@ const FeederHero = () => {
                                     </h1>
 
                                     <div className="mt-10 flex  justify-center items-center gap-x-6">
-                                        <a
-                                            href="#"
+                                        <Link
+                                            to={"/login"}
                                             className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-black shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                         >
                                             Get started
-                                        </a>
+                                        </Link>
                                         <a href="#" className="text-sm font-semibold leading-6 text-white">
                                             Learn more <span aria-hidden="true">→</span>
                                         </a>
