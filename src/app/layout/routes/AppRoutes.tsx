@@ -13,8 +13,8 @@ const AppRoutes = () => {
             <Route path="/" element={<HomePageHero />}/>
             <Route path="/login" element={<LogIn />}/>
             <Route path="/register" element={<SignUp />}/>
-            <Route path="/feeder" element={<TribeFeeder />}/>
-            <Route path="/cruiser" element={<TribeCruiser />}/>
+            <Route path="/products/feeder" element={<TribeFeeder />}/>
+            <Route path="/products/cruiser" element={<TribeCruiser />}/>
             <Route path="*" element={<Error/>}/>
         </Routes>
     );

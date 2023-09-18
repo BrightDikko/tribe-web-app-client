@@ -1,38 +1,54 @@
-import {Disclosure, Menu, Transition} from '@headlessui/react'
-import {Bars3Icon, BellIcon, XMarkIcon} from '@heroicons/react/24/outline'
-import React, {useCallback} from 'react';
-import type {RootState} from "../../store/store";
-import {useSelector, useDispatch} from "react-redux";
-import {navbarSlice, switchTab} from "../../store/navbar/navbarSlice";
-import {Link} from "react-router-dom";
-import {useLocation} from "react-router-dom";
+import React, {Fragment} from "react";
+import {Disclosure, Menu, Transition} from "@headlessui/react"
+import {Bars3Icon, XMarkIcon} from "@heroicons/react/24/outline"
+import {Link, useLocation} from "react-router-dom";
+import {ChevronDownIcon, ChevronRightIcon} from "@heroicons/react/20/solid"
+import filterAndJoinClasses from "../utils/filterAndJoinClasses";
+
+const routesToShowTabButtonsFor = [
+    "/",
+    "/products/feeder",
+    "/products/cruiser",
+    "/products/marketplace",
+    "/products/talent-plus",
+    "/campuses",
+    "/support-center",
+    "/guide",
+    "/testimonials",
+    "/resources",
+    "/fireside",
+    "/help"
+];
 
 
-const routesToShowTabButtonsFor = ["/", "/feeder", "/cruiser", "/projects", "/about", "/help"];
+const productsNavigation = [
+    {name: "Feeder", href: "/products/feeder"},
+    {name: "Cruiser", href: "/products/cruiser"},
+    {name: "Marketplace", href: "/products/marketplace"},
+    {name: "Talent+", href: "/products/talent-plus"},
+]
 
-function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ')
-}
+const resourcesNavigation = [
+    {name: "Support center", href: "/support-center"},
+    {name: "Guide", href: "/guide"},
+    {name: "Testimonials", href: "/testimonials"},
+]
 
 const Navbar = () => {
-    const activeTab = useSelector((state: RootState) => state.navbar.activeTab);
-    const dispatch = useDispatch();
-
     const location = useLocation();
     const navigation = [
-        {name: 'Feeder', href: '/feeder', current: location.pathname === '/feeder'},
-        {name: 'Cruiser', href: '/cruiser', current: location.pathname === '/cruiser'},
-        {name: 'Projects', href: '/projects', current: location.pathname === '/projects'},
-        {name: 'About', href: '/about', current: location.pathname === '/about'},
+        {name: "Products", href: "/products", current: location.pathname === "/products", children: productsNavigation},
+        {name: "Campuses", href: "/campuses", current: location.pathname === "/campuses"},
+        {name: "Resources", href: "/resources", current: location.pathname === "/resources", children: resourcesNavigation},
+        {name: "Fireside", href: "/fireside", current: location.pathname === "/fireside"},
     ];
-
-    const userNavigation = [
-        {name: 'Help', href: '/help'},
-        {name: 'Log in', href: '/login'},
+    const helpAndAuthNavigation = [
+        {name: "Log in", href: "/login", current: location.pathname === "/login"},
     ]
 
+
     return (
-        <Disclosure as="nav" className="bg-black pb-1 border-b border-white/10">
+        <Disclosure as="nav" className="bg-black border-b border-white/10">
             {({open}) => (
                 <>
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -61,19 +77,65 @@ const Navbar = () => {
                                     </Link>
                                 </div>
                                 {routesToShowTabButtonsFor.includes(location.pathname) &&
-                                    <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
+                                    <div className="hidden md:ml-6 md:flex md:items-center md:space-x-1">
                                         {navigation.map((item) => (
-                                            <Link
-                                                key={item.name}
-                                                to={item.href}
-                                                className={classNames(
-                                                    item.current ? 'bg-gray-900 text-white border-[1px] border-gray-500' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                                    'rounded-md px-3 py-2 text-sm font-medium'
-                                                )}
-                                                aria-current={item.current ? 'page' : undefined}
-                                            >
-                                                {item.name}
-                                            </Link>
+                                            <div>
+                                                {!item.children ?
+                                                    (<Link
+                                                        key={item.name}
+                                                        to={item.href}
+                                                        className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                                                        aria-current={item.current ? "page" : undefined}
+                                                    >
+                                                        {item.name}
+                                                    </Link>)
+                                                    :
+                                                    (<Menu as="div" className="relative inline-block text-left">
+                                                        <div>
+                                                            <Menu.Button
+                                                                className="text-gray-300 hover:bg-gray-700 hover:text-white inline-flex w-full justify-center gap-x-1 rounded-md px-3 py-2 mr-2 text-sm font-medium">
+                                                                {item.name}
+                                                                <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400"
+                                                                                 aria-hidden="true"/>
+                                                            </Menu.Button>
+                                                        </div>
+
+                                                        <Transition
+                                                            as={Fragment}
+                                                            enter="transition ease-out duration-100"
+                                                            enterFrom="transform opacity-0 scale-95"
+                                                            enterTo="transform opacity-100 scale-100"
+                                                            leave="transition ease-in duration-75"
+                                                            leaveFrom="transform opacity-100 scale-100"
+                                                            leaveTo="transform opacity-0 scale-95"
+                                                        >
+                                                            <Menu.Items
+                                                                className="absolute right-0 left-0 z-10 mt-3 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                                <div className="py-1">
+                                                                    {item.children.map((item) => (
+                                                                        <Menu.Item key={item.name}>
+                                                                            {({active}) => (
+                                                                                <Link
+                                                                                    to={item.href}
+                                                                                    className={filterAndJoinClasses(
+                                                                                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                                                                                        "flex flex-row justify-between px-4 py-2 text-sm"
+                                                                                    )}
+                                                                                >
+                                                                                    <div><p>{item.name}</p></div>
+                                                                                    <div><ChevronRightIcon
+                                                                                        className={filterAndJoinClasses(
+                                                                                            active ? "bg-gray-100 text-gray-900" : "text-gray-400",
+                                                                                            "-mr-1 h-5 w-5")}
+                                                                                        aria-hidden="true"/></div>
+                                                                                </Link>
+                                                                            )}
+                                                                        </Menu.Item>))}
+                                                                </div>
+                                                            </Menu.Items>
+                                                        </Transition>
+                                                    </Menu>)}
+                                            </div>
                                         ))}
                                     </div>}
                             </div>
@@ -82,12 +144,12 @@ const Navbar = () => {
                             <div className="flex items-center">
                                 <div className="flex items-center">
                                     <div className="hidden mr-3 md:ml-6 md:flex md:items-center md:space-x-4">
-                                        {userNavigation.map((item) => {
+                                        {helpAndAuthNavigation.map((item) => {
                                             return (
                                                 <Link
                                                     key={item.name}
                                                     to={item.href}
-                                                    className={'text-gray-300 px-3 py-2 text-sm font-medium'}
+                                                    className={"text-gray-300 px-3 py-2 text-sm font-medium"}
                                                 >
                                                     {item.name}
                                                 </Link>
@@ -95,7 +157,7 @@ const Navbar = () => {
                                         })}
                                     </div>
 
-                                    <div className="flex-shrink-0">
+                                    <div className="hidden md:flex flex-shrink-0">
                                         <Link to={"/register"}>
                                             <button
                                                 type="button"
@@ -118,27 +180,35 @@ const Navbar = () => {
                                 <Link
                                     key={item.name}
                                     to={item.href}
-                                    className={classNames(
-                                        item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                        'block rounded-md px-3 py-2 text-base font-medium'
+                                    className={filterAndJoinClasses(
+                                        item.current ? "bg-gray-700 text-white" : "text-gray-300 hover:bg-gray-600 hover:text-white",
+                                        "flex flex-row justify-between rounded-md px-3 py-2 text-base font-medium"
                                     )}
-                                    aria-current={item.current ? 'page' : undefined}
+                                    aria-current={item.current ? "page" : undefined}
                                 >
-                                    {item.name}
+                                    <div><p>{item.name}</p></div>
+                                    <div><ChevronRightIcon
+                                        className="text-gray-400 -mr-1 h-5 w-5"
+                                        aria-hidden="true"/></div>
                                 </Link>
                             ))}
                         </div>
-                        <div className="border-t border-white/10 py-3">
+                        <div className="border-t border-white/10 pt-3 -mb-2">
                             <div className=" space-y-1 px-2 sm:px-3">
-                                {userNavigation.map((item) => (
                                     <Link
-                                        key={item.name}
-                                        to={item.href}
-                                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                                        key={"login/signup"}
+                                        to={"/login"}
+                                        className={filterAndJoinClasses(
+                                            location.pathname === "/login" ? "bg-gray-700 text-white" : "text-gray-300 hover:bg-gray-600 hover:text-white",
+                                            "flex flex-row justify-between rounded-md px-3 py-2 text-base font-medium"
+                                        )}
                                     >
-                                        {item.name}
+                                        <div><p>Log in/ Sign up</p></div>
+                                        <div><ChevronRightIcon
+                                            className="text-gray-400 -mr-1 h-5 w-5"
+                                            aria-hidden="true"/></div>
                                     </Link>
-                                ))}
+                                ))
                             </div>
                         </div>
                     </Disclosure.Panel>

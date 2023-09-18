@@ -6,7 +6,7 @@ import React from "react";
 
 const MainLayout = () => {
     const location = useLocation();
-    const routesToRenderFooterFor = ["/", "/feeder", "/cruiser", "/projects", "/about", "/help"];
+    const routesToRenderFooterFor = ["/", "/products/feeder", "/products/cruiser", "/campuses", "/resources", "/fireside", "/help"];
     return (
         <>
             <Navbar/>
