@@ -1,7 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
-import {signUpUser} from "../../../../store/auth/authSlice";
+import {useDispatch, useSelector} from "react-redux";
 import filterAndJoinClasses from "../../../utils/filterAndJoinClasses";
+import {AppDispatch, RootState} from "../../../../store/store";
+import {Navigate, useNavigate} from "react-router-dom";
+import {UserInfo} from "../../../../types/user";
+import {register} from "../../../../store/slices/authSlice";
 
 
 interface ValidSchools {
@@ -19,13 +22,18 @@ const VALID_SCHOOLS = {
 }
 
 const SignUp = () => {
+    const [loading, setLoading] = useState(false);
+
+    const {isAuthenticated} = useSelector((state: RootState) => state.auth);
+
     const [enteredFullName, setEnteredFullName] = useState("");
-    const [enteredSchoolName, setEnteredSchoolName] = useState("DEFAULT");
+    const [selectedSchoolKey, setSelectedSchoolKey] = useState<SchoolKeys | "DEFAULT">("DEFAULT");
     const [enteredEmail, setEnteredEmail] = useState("");
     const [enteredPassword, setEnteredPassword] = useState("");
     const [enableCreateAccountButton, setEnableCreateAccountButton] = useState(false);
 
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
 
     useEffect(() => {
         document.title = "TRiBE Sign Up | Create new TRiBE Account";
@@ -33,17 +41,17 @@ const SignUp = () => {
 
     useEffect(() => {
         const enteredFullNameIsValid = enteredFullName.trim().length > 2;
-        const enteredSchoolNameIsValid = enteredSchoolName !== "DEFAULT";
+        const selectedSchoolIsValid = selectedSchoolKey !== "DEFAULT";
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;
         const enteredEmailIsValid = emailPattern.test(enteredEmail);
         const enteredPasswordIsValid = enteredPassword.trim().length > 5;
 
-        if (enteredPasswordIsValid && enteredEmailIsValid && enteredSchoolNameIsValid && enteredFullNameIsValid) {
+        if (enteredPasswordIsValid && enteredEmailIsValid && selectedSchoolIsValid && enteredFullNameIsValid) {
             setEnableCreateAccountButton(true);
         } else {
             setEnableCreateAccountButton(false);
         }
-    }, [enteredFullName, enteredSchoolName, enteredEmail, enteredPassword]);
+    }, [enteredFullName, selectedSchoolKey, enteredEmail, enteredPassword]);
 
     const handleFullNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEnteredFullName(event.target.value);
@@ -52,7 +60,7 @@ const SignUp = () => {
     const handleSchoolNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const schoolKey = event.target.value as SchoolKeys;
         if (schoolKey in VALID_SCHOOLS) {
-            setEnteredSchoolName(VALID_SCHOOLS[schoolKey]);
+            setSelectedSchoolKey(schoolKey);
         }
     }
 
@@ -66,20 +74,42 @@ const SignUp = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
 
-        const userInfo = {
-            fullName: enteredFullName,
-            schoolName: enteredSchoolName,
+        // const userInfo = {
+        //     fullName: enteredFullName,
+        //     schoolName: VALID_SCHOOLS[selectedSchoolKey as SchoolKeys],
+        //     email: enteredEmail,
+        //     password: enteredPassword
+        // }
+
+        const userInfo: UserInfo = {
+            firstName: "dummy_firstname",
+            lastName: "dummy_lastname",
             email: enteredEmail,
             password: enteredPassword
-        }
-        dispatch(signUpUser({...userInfo}));
+        };
+
+        dispatch(register(userInfo))
+            .unwrap()
+            .then(() => {
+                // console.log("User registered successfully!");
+                navigate("/login");
+            })
+            .catch(() => {
+                setLoading(false);
+            });
 
         setEnteredEmail("");
         setEnteredFullName("");
-        setEnteredSchoolName("DEFAULT");
+        setSelectedSchoolKey("DEFAULT");
         setEnteredPassword("");
         setEnableCreateAccountButton(false);
+    }
+
+    if (isAuthenticated) {
+        // console.log("User is already registered. REDIRECTING TO HOME PAGE!");
+        return <Navigate to={"/login"} />;
     }
 
     return (
@@ -123,7 +153,7 @@ const SignUp = () => {
                                         id="user_school"
                                         name="user_school"
                                         required
-                                        value={enteredSchoolName}
+                                        value={selectedSchoolKey}
                                         onChange={handleSchoolNameChange}
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     >
@@ -182,7 +212,21 @@ const SignUp = () => {
                                         "flex w-full justify-center rounded-md  px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     )}
                                 >
-                                    Create account
+                                    {loading && <div role="status">
+                                        <svg aria-hidden="true"
+                                             className="mt-1 h-4 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-200"
+                                             viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                fill="currentColor"/>
+                                            <path
+                                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                fill="currentFill"/>
+                                        </svg>
+                                        <span className="sr-only">Loading...</span>
+                                    </div>}
+
+                                    <span>Create account</span>
                                 </button>
                             </div>
                         </form>
