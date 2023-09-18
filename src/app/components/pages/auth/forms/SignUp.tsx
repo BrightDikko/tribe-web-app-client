@@ -1,9 +1,86 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
+import {signUpUser} from "../../../../store/auth/authSlice";
+import filterAndJoinClasses from "../../../utils/filterAndJoinClasses";
+
+
+interface ValidSchools {
+    school_1: string;
+    school_2: string;
+    school_3: string;
+}
+
+type SchoolKeys = keyof ValidSchools;
+
+const VALID_SCHOOLS = {
+    "school_1": "Holy Cross College",
+    "school_2": "Saint Mary's College",
+    "school_3": "University of Notre Dame"
+}
 
 const SignUp = () => {
+    const [enteredFullName, setEnteredFullName] = useState("");
+    const [enteredSchoolName, setEnteredSchoolName] = useState("DEFAULT");
+    const [enteredEmail, setEnteredEmail] = useState("");
+    const [enteredPassword, setEnteredPassword] = useState("");
+    const [enableCreateAccountButton, setEnableCreateAccountButton] = useState(false);
+
+    const dispatch = useDispatch();
+
     useEffect(() => {
         document.title = "TRiBE Sign Up | Create new TRiBE Account";
     }, []);
+
+    useEffect(() => {
+        const enteredFullNameIsValid = enteredFullName.trim().length > 2;
+        const enteredSchoolNameIsValid = enteredSchoolName !== "DEFAULT";
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;
+        const enteredEmailIsValid = emailPattern.test(enteredEmail);
+        const enteredPasswordIsValid = enteredPassword.trim().length > 5;
+
+        if (enteredPasswordIsValid && enteredEmailIsValid && enteredSchoolNameIsValid && enteredFullNameIsValid) {
+            setEnableCreateAccountButton(true);
+        } else {
+            setEnableCreateAccountButton(false);
+        }
+    }, [enteredFullName, enteredSchoolName, enteredEmail, enteredPassword]);
+
+    const handleFullNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEnteredFullName(event.target.value);
+    }
+
+    const handleSchoolNameChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const schoolKey = event.target.value as SchoolKeys;
+        if (schoolKey in VALID_SCHOOLS) {
+            setEnteredSchoolName(VALID_SCHOOLS[schoolKey]);
+        }
+    }
+
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEnteredEmail(event.target.value);
+    }
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEnteredPassword(event.target.value);
+    }
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const userInfo = {
+            fullName: enteredFullName,
+            schoolName: enteredSchoolName,
+            email: enteredEmail,
+            password: enteredPassword
+        }
+        dispatch(signUpUser({...userInfo}));
+
+        setEnteredEmail("");
+        setEnteredFullName("");
+        setEnteredSchoolName("DEFAULT");
+        setEnteredPassword("");
+        setEnableCreateAccountButton(false);
+    }
 
     return (
         <>
@@ -16,7 +93,7 @@ const SignUp = () => {
 
                 <div className="mt-8 px-4 sm:mx-auto w-full sm:max-w-[480px]">
                     <div className="bg-black border-2 border-[#24292F] px-6 py-8 shadow rounded-lg sm:px-12">
-                        <form className="space-y-5" action="#" method="POST" autoComplete="off">
+                        <form className="space-y-5" onSubmit={handleSubmit} method="POST" autoComplete="off">
                             <div>
                                 <label htmlFor="user_fullname"
                                        className="block text-sm font-medium leading-6 text-left text-white">
@@ -29,7 +106,9 @@ const SignUp = () => {
                                         type="user_fullname"
                                         autoComplete="name"
                                         required
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        value={enteredFullName}
+                                        onChange={handleFullNameChange}
+                                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                             </div>
@@ -44,12 +123,14 @@ const SignUp = () => {
                                         id="user_school"
                                         name="user_school"
                                         required
+                                        value={enteredSchoolName}
+                                        onChange={handleSchoolNameChange}
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     >
-                                        <option value="" disabled selected>Select your school or university</option>
-                                        <option value="university_1">Holy Cross College</option>
-                                        <option value="university_2">Saint Mary's College</option>
-                                        <option value="university_3">University of Notre Dame</option>
+                                        <option value="DEFAULT" disabled>Select your school or university</option>
+                                        {Object.entries(VALID_SCHOOLS).map(([key, value]) => (
+                                            <option key={key} value={key}>{value}</option>
+                                        ))}
                                     </select>
                                 </div>
                             </div>
@@ -63,10 +144,12 @@ const SignUp = () => {
                                     <input
                                         id="user_email"
                                         name="user_email"
-                                        type="user_email"
+                                        type="email"
                                         autoComplete="new-email"
                                         required
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        value={enteredEmail}
+                                        onChange={handleEmailChange}
+                                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                             </div>
@@ -80,10 +163,12 @@ const SignUp = () => {
                                     <input
                                         id="user_password"
                                         name="user_password"
-                                        type="user_password"
+                                        type="password"
                                         autoComplete="new-password"
                                         required
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        value={enteredPassword}
+                                        onChange={handlePasswordChange}
+                                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                             </div>
@@ -91,7 +176,11 @@ const SignUp = () => {
                             <div className="pt-6">
                                 <button
                                     type="submit"
-                                    className="flex w-full justify-center rounded-md bg-indigo-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    disabled={!enableCreateAccountButton}
+                                    className={filterAndJoinClasses(
+                                        enableCreateAccountButton ? " bg-indigo-700 hover:bg-indigo-600" : " bg-gray-500 hover:bg-gray-500",
+                                        "flex w-full justify-center rounded-md  px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    )}
                                 >
                                     Create account
                                 </button>
@@ -124,7 +213,7 @@ const SignUp = () => {
 
                         <p className="mt-5 text-center text-sm text-gray-500">
                             Have an account?{' '}
-                            <a href="/auth/forms/LogIn" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+                            <a href="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
                                 Log in
                             </a>
                         </p>

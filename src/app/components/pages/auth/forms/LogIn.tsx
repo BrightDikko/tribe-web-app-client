@@ -1,11 +1,51 @@
-import React, {useEffect} from "react";
-import {useLocation} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {logInUser} from "../../../../store/auth/authSlice";
+import {RootState} from "../../../../store/store";
+import filterAndJoinClasses from "../../../utils/filterAndJoinClasses";
 
 const LogIn = () => {
+    const [enteredEmail, setEnteredEmail] = useState("");
+    const [enteredPassword, setEnteredPassword] = useState("");
+    const [enableCreateAccountButton, setEnableCreateAccountButton] = useState(false);
+
+    const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+    console.log("userInfo: ", userInfo);
+
+    const dispatch = useDispatch();
+
     useEffect(() => {
         document.title = "TRiBE Log In | Sign In to TRiBE Account";
     }, []);
 
+    useEffect(() => {
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]+$/;
+        const enteredEmailIsValid = emailPattern.test(enteredEmail);
+        const enteredPasswordIsValid = enteredPassword.trim().length > 5;
+
+        if (enteredEmailIsValid && enteredPasswordIsValid) {
+            setEnableCreateAccountButton(true);
+        } else {
+            setEnableCreateAccountButton(false);
+        }
+    }, [enteredEmail, enteredPassword]);
+
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEnteredEmail(event.target.value);
+    }
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEnteredPassword(event.target.value);
+    }
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log("Submit button pressed!");
+        dispatch(logInUser({email: enteredEmail, password: enteredPassword}));
+
+        setEnteredEmail("");
+        setEnteredPassword("");
+    }
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center mb-12 py-5 sm:px-6 lg:px-8">
@@ -17,7 +57,7 @@ const LogIn = () => {
 
                 <div className="mt-8 px-4 sm:mx-auto w-full sm:max-w-[480px]">
                     <div className="bg-black border-2 border-[#24292F] px-6 py-8 shadow rounded-lg sm:px-12">
-                        <form className="space-y-5" action="#" method="POST" autoComplete="off">
+                        <form className="space-y-5" onSubmit={handleSubmit} method="POST" autoComplete="off">
                             <div>
                                 <label htmlFor="user_email"
                                        className="block text-sm font-medium leading-6 text-left text-white">
@@ -27,10 +67,12 @@ const LogIn = () => {
                                     <input
                                         id="user_email"
                                         name="user_email"
-                                        type="user_email"
+                                        type="email"
                                         autoComplete="new-email"
                                         required
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        onChange={handleEmailChange}
+                                        value={enteredEmail}
+                                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                             </div>
@@ -44,10 +86,12 @@ const LogIn = () => {
                                     <input
                                         id="user_password"
                                         name="user_password"
-                                        type="user_password"
+                                        type="password"
                                         autoComplete="new-password"
                                         required
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                        onChange={handlePasswordChange}
+                                        value={enteredPassword}
+                                        className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     />
                                 </div>
                             </div>
@@ -75,7 +119,9 @@ const LogIn = () => {
                             <div>
                                 <button
                                     type="submit"
-                                    className="flex w-full justify-center rounded-md bg-indigo-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    className={filterAndJoinClasses(
+                                        enableCreateAccountButton ? " bg-indigo-700 hover:bg-indigo-600" : " bg-gray-500 hover:bg-gray-500",
+                                        "flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600")}
                                 >
                                     Log in
                                 </button>
